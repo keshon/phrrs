@@ -8,7 +8,7 @@ class SocketInterface {
 	private $requestSocket;
 
     public function startSession($serverPort, $verbose) {
-		$serverAddress = '0.0.0.0:'.$serverPort;
+		$serverAddress = 'localhost:'.$serverPort;
 		if ($verbose) {
 			echo('Starting server on '.$serverAddress.'...'."\n");
 		}
