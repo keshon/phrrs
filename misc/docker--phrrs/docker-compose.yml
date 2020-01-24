@@ -10,4 +10,4 @@ services:
         environment:
             LIBRARY: ${LIBRARY:-tests/test-libraries/ExampleLibrary.php}
             PORT: ${PORT:-8111}
-        image: phrrs
+        image: keshon/phrrs
