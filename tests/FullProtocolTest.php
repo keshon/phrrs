@@ -3,12 +3,13 @@
 use \PhpRobotRemoteServer\KeywordStore;
 use \PhpRobotRemoteServer\RobotRemoteServer;
 use \PhpRobotRemoteServer\RobotRemoteProtocol;
+use \PHPUnit\Framework\TestCase;
 
-class FullProtocolTest extends PHPUnit_Framework_TestCase {
+class FullProtocolTest extends TestCase {
 
     private $server;
 
-    protected function setUp() {
+    protected function setUp():void {
         $keywordStore = new KeywordStore(FALSE);
         $keywordStore->collectKeywords(__DIR__.'/test-libraries');
 
@@ -19,7 +20,7 @@ class FullProtocolTest extends PHPUnit_Framework_TestCase {
         $this->server->init($protocol);
     }
 
-    protected function tearDown() {
+    protected function tearDown():void {
 
     }
 
@@ -29,7 +30,7 @@ class FullProtocolTest extends PHPUnit_Framework_TestCase {
         $this->assertXmlStringEqualsXmlString($expectedRpcAnswer, $actualRpcAnswer);
     }
 
-    public function testGetKeywordNames() {
+    public function testGetKeywordNames():void {
         $this->checkRpcCall('<?xml version="1.0"?>
             <methodCall>
                <methodName>get_keyword_names</methodName>
@@ -51,7 +52,7 @@ class FullProtocolTest extends PHPUnit_Framework_TestCase {
 </methodResponse>');
     }
 
-    public function testRunKeyword() {
+    public function testRunKeyword():void {
         $this->checkRpcCall('<?xml version="1.0"?>
             <methodCall>
                <methodName>run_keyword</methodName>
@@ -85,7 +86,7 @@ class FullProtocolTest extends PHPUnit_Framework_TestCase {
 </methodResponse>');
     }
 
-    public function testRunExceptionKeyword() {
+    public function testRunExceptionKeyword():void {
         $rpcRequest = '<?xml version="1.0"?>
             <methodCall>
                <methodName>run_keyword</methodName>
@@ -121,7 +122,7 @@ class FullProtocolTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue(strpos($actualRpcAnswer, $toCheck) === 0, $actualRpcAnswer."\nDO NOT START WITH\n".$toCheck);
     }
 
-    public function testGetKeywordArguments() {
+    public function testGetKeywordArguments():void {
         $this->checkRpcCall('<?xml version="1.0"?>
             <methodCall>
                <methodName>get_keyword_arguments</methodName>
@@ -143,7 +144,7 @@ class FullProtocolTest extends PHPUnit_Framework_TestCase {
 </methodResponse>');
     }
 
-    public function testGetKeywordDocumentation() {
+    public function testGetKeywordDocumentation():void {
         $this->checkRpcCall('<?xml version="1.0"?>
             <methodCall>
                <methodName>get_keyword_documentation</methodName>
@@ -160,7 +161,7 @@ class FullProtocolTest extends PHPUnit_Framework_TestCase {
 </methodResponse>');
     }
 
-    public function testStopRemoteServer() {
+    public function testStopRemoteServer():void {
         $this->checkRpcCall('<?xml version="1.0"?>
             <methodCall>
                <methodName>stop_remote_server</methodName>

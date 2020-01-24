@@ -5,15 +5,17 @@ use \PhpRobotRemoteServer\RobotRemoteProtocol;
 
 use \PhpXmlRpc\Value;
 
-class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
+use \PHPUnit\Framework\TestCase;
+
+class RobotRemoteProtocolTest extends TestCase {
 
     private $protocol;
 
-    protected function setUp() {
+    protected function setUp():void {
         $this->protocol = new RobotRemoteProtocol(FALSE);
     }
 
-    protected function tearDown() {
+    protected function tearDown():void {
 
     }
 
@@ -25,27 +27,27 @@ class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($actualValue, $encodedValue->scalarval());
     }
 
-    public function testXmlrpcEncodeKeywordResultValueBoolean() {
+    public function testXmlrpcEncodeKeywordResultValueBoolean():void {
         $encodedValue = $this->protocol->xmlrpcEncodeKeywordResultValue(TRUE);
         $this->checkScalar($encodedValue, 'boolean', TRUE);
     }
 
-    public function testXmlrpcEncodeKeywordResultValueInteger() {
+    public function testXmlrpcEncodeKeywordResultValueInteger():void {
         $encodedValue = $this->protocol->xmlrpcEncodeKeywordResultValue(9);
         $this->checkScalar($encodedValue, 'int', 9);
     }
 
-    public function testXmlrpcEncodeKeywordResultValueDouble() {
+    public function testXmlrpcEncodeKeywordResultValueDouble():void {
         $encodedValue = $this->protocol->xmlrpcEncodeKeywordResultValue(7.5342);
         $this->checkScalar($encodedValue, 'string', 7.5342);
     }
 
-    public function testXmlrpcEncodeKeywordResultValueString() {
+    public function testXmlrpcEncodeKeywordResultValueString():void {
         $encodedValue = $this->protocol->xmlrpcEncodeKeywordResultValue('test String');
         $this->checkScalar($encodedValue, 'string', 'test String');
     }
 
-    public function testXmlrpcEncodeKeywordResultValueArray() {
+    public function testXmlrpcEncodeKeywordResultValueArray():void {
         $encodedValue = $this->protocol->xmlrpcEncodeKeywordResultValue(array('un peu', 'beaucoup', 'passionnément', 'à la folie', 'pas du tout'));
         $this->assertEquals('array', $encodedValue->kindOf());
         $this->assertEquals(5, count($encodedValue));
@@ -56,7 +58,7 @@ class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
         $this->checkScalar($encodedValue[4], 'string', 'pas du tout');
     }
 
-    public function testXmlrpcEncodeKeywordResultValueAssociativeArray() {
+    public function testXmlrpcEncodeKeywordResultValueAssociativeArray():void {
         $encodedValue = $this->protocol->xmlrpcEncodeKeywordResultValue(array('paquerette'=>'un peu', 'coquelicot'=>'beaucoup',
             'pissenlit'=>'passionnément', 'rose'=>'à la folie', 'tulipe'=>'pas du tout'));
         $this->assertEquals('struct', $encodedValue->kindOf());
@@ -68,7 +70,7 @@ class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
         $this->checkScalar($encodedValue['tulipe'], 'string', 'pas du tout');
     }
     
-    public function testXmlrpcEncodeKeywordResultValueNestedArray() {
+    public function testXmlrpcEncodeKeywordResultValueNestedArray():void {
         // TODO not a very readable test, especially the 'check' part... Is this test too complex?
         $encodedValue = $this->protocol->xmlrpcEncodeKeywordResultValue(array(
             'k1' => 'v1',
@@ -136,7 +138,7 @@ class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
         $this->checkScalar($k8[3], 'string', 'v9');
     }
     
-    public function testXmlrpcEncodeKeywordResultValueObject() {
+    public function testXmlrpcEncodeKeywordResultValueObject():void {
         $encodedValue = $this->protocol->xmlrpcEncodeKeywordResultValue(new SamplePhpClassToShareInXmlrpc());
         $this->assertEquals('struct', $encodedValue->kindOf());
         $this->assertEquals(4, count($encodedValue));
@@ -146,19 +148,19 @@ class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
         $this->checkScalar($encodedValue['publicField'], 'string', 'public');
     }
 
-    public function testXmlrpcEncodeKeywordResultValueResource() {
+    public function testXmlrpcEncodeKeywordResultValueResource():void {
         $resource = fopen(__FILE__, 'r');
         // echo gettype($resource); // resource
         $encodedValue = $this->protocol->xmlrpcEncodeKeywordResultValue($resource);
         $this->checkScalar($encodedValue, 'null', $resource); // TOOD What's the use of having the resource there? What will it become through the XML-RPC link?
     }
 
-    public function testXmlrpcEncodeKeywordResultValueNull() {
+    public function testXmlrpcEncodeKeywordResultValueNull():void {
         $encodedValue = $this->protocol->xmlrpcEncodeKeywordResultValue(null);
         $this->checkScalar($encodedValue, 'null', null);
     }
 
-    public function testXmlrpcEncodeKeywordResultValueUnknownType() {
+    public function testXmlrpcEncodeKeywordResultValueUnknownType():void {
         $resource = fopen(__FILE__, 'r');
         fclose($resource);
         // echo gettype($resource); // unknown type
@@ -168,37 +170,37 @@ class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
 
     /* ----- tests of convertXmlrpcArgToPhp ------ */
 
-    public function testConvertXmlrpcArgToPhpScalarBoolean() {
+    public function testConvertXmlrpcArgToPhpScalarBoolean():void {
         $phpValue = $this->protocol->convertXmlrpcArgToPhp(new Value(TRUE, 'boolean'));
         $this->assertInternalType('boolean', $phpValue);
         $this->assertEquals(TRUE, $phpValue);
     }
 
-    public function testConvertXmlrpcArgToPhpScalarInt() {
+    public function testConvertXmlrpcArgToPhpScalarInt():void {
         $phpValue = $this->protocol->convertXmlrpcArgToPhp(new Value(3, 'int'));
         $this->assertInternalType('int', $phpValue);
         $this->assertEquals(3, $phpValue);
     }
 
-    public function testConvertXmlrpcArgToPhpScalarDouble() {
+    public function testConvertXmlrpcArgToPhpScalarDouble():void {
         $phpValue = $this->protocol->convertXmlrpcArgToPhp(new Value(123.991918, 'double'));
         $this->assertInternalType('double', $phpValue);
         $this->assertEquals(123.991918, $phpValue);
     }
 
-    public function testConvertXmlrpcArgToPhpScalarString() {
+    public function testConvertXmlrpcArgToPhpScalarString():void {
         $phpValue = $this->protocol->convertXmlrpcArgToPhp(new Value('(boom)', 'string'));
         $this->assertInternalType('string', $phpValue);
         $this->assertEquals('(boom)', $phpValue);
     }
 
-    public function testConvertXmlrpcArgToPhpScalarNull() {
+    public function testConvertXmlrpcArgToPhpScalarNull():void {
         $phpValue = $this->protocol->convertXmlrpcArgToPhp(new Value(NULL, 'null'));
         $this->assertInternalType('null', $phpValue);
         $this->assertEquals(NULL, $phpValue);
     }
 
-    public function testConvertXmlrpcArgToPhpArrayScalar() {
+    public function testConvertXmlrpcArgToPhpArrayScalar():void {
         $phpValue = $this->protocol->convertXmlrpcArgToPhp(new Value(array(
                 new Value(4, 'int'),
                 new Value(FALSE, 'boolean'),
@@ -216,7 +218,7 @@ class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
             ), $phpValue);
     }
 
-    public function testConvertXmlrpcArgToPhpNestedArray() {
+    public function testConvertXmlrpcArgToPhpNestedArray():void {
         $phpValue = $this->protocol->convertXmlrpcArgToPhp(new Value(array(
                 new Value(4, 'int'),
                 new Value(array(
@@ -248,7 +250,7 @@ class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
             ), $phpValue);
     }
 
-    public function testConvertXmlrpcArgToPhpStructScalar() {
+    public function testConvertXmlrpcArgToPhpStructScalar():void {
         $phpValue = $this->protocol->convertXmlrpcArgToPhp(new Value(array(
                 'key1' => new Value('value as a string', 'string'),
                 'key2' => new Value(56, 'int'),
@@ -266,7 +268,7 @@ class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
             ), $phpValue);
     }
 
-    public function testConvertXmlrpcArgToPhpNestedStructArray() {
+    public function testConvertXmlrpcArgToPhpNestedStructArray():void {
         $phpValue = $this->protocol->convertXmlrpcArgToPhp(new Value(array(
                 'k1' => new Value('v1', 'string'),
                 'k2' => new Value(array(
@@ -321,7 +323,7 @@ class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
         ), $phpValue);
     }
 
-    public function testConvertXmlrpcArgToPhpUndef() {
+    public function testConvertXmlrpcArgToPhpUndef():void {
         $xmlrpcValue = $this->getMockBuilder('\PhpXmlRpc\Value')->disableOriginalConstructor()->setMethods(['kindOf'])->getMock();
         $xmlrpcValue->expects($this->once())->method('kindOf')->willReturn('undef');
 
@@ -331,31 +333,31 @@ class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
 
     /* ----- tests of isAssociativeArray ------ */
 
-    public function testIsAssociativeArray1() {
+    public function testIsAssociativeArray1():void {
         $array = array('a', 'b', 'c');
         $isAssociative = $this->protocol->isAssociativeArray($array);
         $this->assertFalse($isAssociative);
     }
 
-    public function testIsAssociativeArray2() {
+    public function testIsAssociativeArray2():void {
         $array = array("0" => 'a', "1" => 'b', "2" => 'c');
         $isAssociative = $this->protocol->isAssociativeArray($array);
         $this->assertFalse($isAssociative);
     }
 
-    public function testIsAssociativeArray3() {
+    public function testIsAssociativeArray3():void {
         $array = array("1" => 'a', "0" => 'b', "2" => 'c');
         $isAssociative = $this->protocol->isAssociativeArray($array);
         $this->assertTrue($isAssociative);
     }
 
-    public function testIsAssociativeArray4() {
+    public function testIsAssociativeArray4():void {
         $array = array("a" => 'a', "b" => 'b', "c" => 'c');
         $isAssociative = $this->protocol->isAssociativeArray($array);
         $this->assertTrue($isAssociative);
     }
 
-    public function testIsAssociativeArrayEmpty() {
+    public function testIsAssociativeArrayEmpty():void {
         $array = array();
         $isAssociative = $this->protocol->isAssociativeArray($array);
         $this->assertFalse($isAssociative);
@@ -363,7 +365,7 @@ class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
 
     /* ----- tests of executeKeyword ------ */
 
-    public function testExecuteKeyword() {
+    public function testExecuteKeyword():void {
         $testKeywordStore = new TestExecKeywordStore();
         $this->protocol->init($testKeywordStore);
 
@@ -375,7 +377,7 @@ class RobotRemoteProtocolTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Call to: coolMethod(nice arg, beautiful arg, handsome arg)', $result['return']);
     }
 
-    public function testExecuteKeywordCaptureStdout() {
+    public function testExecuteKeywordCaptureStdout():void {
         $testKeywordStore = new TestExecKeywordStoreStdout();
         $this->protocol->init($testKeywordStore);
 
@@ -397,7 +399,7 @@ class SamplePhpClassToShareInXmlrpc {
     public $publicField = 'public';
     protected $protectedField = 'protected';
     static $staticField = 'static';
-    function notAField() { }
+    function notAField():void { }
 }
 
 class TestExecKeywordStore extends KeywordStore {

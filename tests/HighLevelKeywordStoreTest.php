@@ -2,21 +2,23 @@
 
 use \PhpRobotRemoteServer\KeywordStore;
 
-class HighLevelKeywordStoreTest extends PHPUnit_Framework_TestCase {
+use \PHPUnit\Framework\TestCase;
+
+class HighLevelKeywordStoreTest extends TestCase {
 
     private $keywordStore;
 
-    protected function setUp() {
+    protected function setUp():void {
         $this->keywordStore = new KeywordStore(FALSE);
         $this->keywordStore->collectKeywords(__DIR__.'/test-libraries');
         $this->keywordStore->addStopRemoteServerKeyword('', '');
     }
 
-    protected function tearDown() {
+    protected function tearDown():void {
 
     }
 
-    public function testGetKeywordNames() {
+    public function testGetKeywordNames():void {
         $keywordNames = $this->keywordStore->getKeywordNames();
 
         $this->assertEquals(3, count($keywordNames));
@@ -25,34 +27,34 @@ class HighLevelKeywordStoreTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('stop_remote_server', $keywordNames[2]);
     }
 
-    public function testExecKeyword() {
+    public function testExecKeyword():void {
         $args = array();
         $result = $this->keywordStore->execKeyword('truth_of_life', $args);
 
         $this->assertEquals(42, $result);
     }
 
-    public function testExecKeywordArgs() {
+    public function testExecKeywordArgs():void {
         $args = array('abc', 'abc');
         $result = $this->keywordStore->execKeyword('strings_should_be_equal', $args);
 
         $this->assertTrue($result);
     }
 
-    public function testExecKeywordException() {
-        $this->setExpectedException('Exception');
+    public function testExecKeywordException():void {
+        $this->expectException('Exception');
 
         $args = array('abc', 'def');
         $result = $this->keywordStore->execKeyword('strings_should_be_equal', $args);
     }
 
-    public function testGetKeywordArgumentsNoArgs() {
+    public function testGetKeywordArgumentsNoArgs():void {
         $keywordArgs = $this->keywordStore->getKeywordArguments('truth_of_life');
 
         $this->assertEquals(0, count($keywordArgs));
     }
 
-    public function testGetKeywordArgumentsTwoArgs() {
+    public function testGetKeywordArgumentsTwoArgs():void {
         $keywordArgs = $this->keywordStore->getKeywordArguments('strings_should_be_equal');
 
         $this->assertEquals(2, count($keywordArgs));
@@ -60,13 +62,13 @@ class HighLevelKeywordStoreTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('str2', $keywordArgs[1]);
     }
 
-    public function testGetKeywordDocumentationEmptyDoc() {
+    public function testGetKeywordDocumentationEmptyDoc():void {
         $keywordDoc = $this->keywordStore->getKeywordDocumentation('truth_of_life');
 
         $this->assertEquals('', $keywordDoc);
     }
 
-    public function testGetKeywordDocumentationWithDoc() {
+    public function testGetKeywordDocumentationWithDoc():void {
         $keywordDoc = $this->keywordStore->getKeywordDocumentation('strings_should_be_equal');
 
         $this->assertEquals('Compare 2 strings. If they are not equal, throws exception.', $keywordDoc);
@@ -74,7 +76,7 @@ class HighLevelKeywordStoreTest extends PHPUnit_Framework_TestCase {
 
     // TODO test special characters in doc
 
-    public function testExecKeywordMultipleFiles() {
+    public function testExecKeywordMultipleFiles():void {
         $this->keywordStore->collectKeywords(__DIR__.'/test-libraries-multiple-files');
 
         $keywordsToTest = array(

@@ -2,17 +2,19 @@
 
 use \PhpRobotRemoteServer\KeywordStore;
 
-class KeywordStoreTest extends PHPUnit_Framework_TestCase {
+use \PHPUnit\Framework\TestCase;
 
-    protected function setUp() {
+class KeywordStoreTest extends TestCase {
 
-    }
-
-    protected function tearDown() {
+    protected function setUp():void {
 
     }
 
-    public function testCleanUpPhpArguments() {
+    protected function tearDown():void {
+
+    }
+
+    public function testCleanUpPhpArguments():void {
         $rawArguments = array(
             '$abc',
             '$prettymegagigalongandthatsnothngyetboooooyaaaaaa',
@@ -28,13 +30,13 @@ class KeywordStoreTest extends PHPUnit_Framework_TestCase {
             ), $actual);
     }
 
-    public function testCleanUpPhpArgumentsNoArgs() {
+    public function testCleanUpPhpArgumentsNoArgs():void {
         $rawArguments = array();
         $actual = KeywordStore::cleanUpPhpArguments($rawArguments);
         $this->assertEquals(array(), $actual);
     }
 
-    public function testCleanUpPhpDocumentation() {
+    public function testCleanUpPhpDocumentation():void {
         $rawDocumentation = '/**
    * Compare 2 strings. If they are not equal, throws exception.
    */';
@@ -42,7 +44,7 @@ class KeywordStoreTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Compare 2 strings. If they are not equal, throws exception.', $actual);
     }
 
-    public function testFindFilesSingleFile() {
+    public function testFindFilesSingleFile():void {
         $file = __DIR__.'/test-libraries/ExampleLibrary.php';
         $keywordStore = new KeywordStore(FALSE);
         $files = $keywordStore->findFiles($file);
@@ -51,7 +53,7 @@ class KeywordStoreTest extends PHPUnit_Framework_TestCase {
             ), $files);
     }
 
-    public function testFindFilesBasic() {
+    public function testFindFilesBasic():void {
         $rootDir = __DIR__.'/test-libraries';
         $keywordStore = new KeywordStore(FALSE);
         $files = $keywordStore->findFiles($rootDir);
@@ -60,7 +62,7 @@ class KeywordStoreTest extends PHPUnit_Framework_TestCase {
             ), $files);
     }
 
-    public function testFindFilesMultipleFiles() {
+    public function testFindFilesMultipleFiles():void {
         $rootDir = __DIR__.'/test-libraries-multiple-files';
         $keywordStore = new KeywordStore(FALSE);
         $files = $keywordStore->findFiles($rootDir);
@@ -76,7 +78,7 @@ class KeywordStoreTest extends PHPUnit_Framework_TestCase {
             ), $files);
     }
 
-    public function testCollectKeywordsFromFile() {
+    public function testCollectKeywordsFromFile():void {
         $file = __DIR__.'/test-libraries/ExampleLibrary.php';
         $keywordStore = new KeywordStore(FALSE);
         $keywordStore->keywords = array();
@@ -96,7 +98,7 @@ class KeywordStoreTest extends PHPUnit_Framework_TestCase {
              ), $keywords);
     }
 
-    public function testCollectKeywordsMultipleFiles() {
+    public function testCollectKeywordsMultipleFiles():void {
         $rootDir = __DIR__.'/test-libraries-multiple-files';
         $keywordStore = new KeywordStore(FALSE);
         $keywordStore->collectKeywords($rootDir);
@@ -172,7 +174,7 @@ class KeywordStoreTest extends PHPUnit_Framework_TestCase {
              ), $keywords);
     }
 
-    public function testCollectKeywordsDuplicateDefinitions() {
+    public function testCollectKeywordsDuplicateDefinitions():void {
         $rootDir = __DIR__.'/test-libraries-duplicate-keywords';
         $keywordStore = new KeywordStore(FALSE);
         $keywordStore->keywords = array();
@@ -192,7 +194,7 @@ class KeywordStoreTest extends PHPUnit_Framework_TestCase {
              ), $keywords);
     }
 
-    public function testKeywordReport() {
+    public function testKeywordReport():void {
         $rootDir = __DIR__.'/test-libraries-multiple-files';
         $keywordStore = new KeywordStore(FALSE);
         $keywordStore->keywords = array(

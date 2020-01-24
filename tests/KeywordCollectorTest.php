@@ -2,19 +2,21 @@
 
 use \PhpRobotRemoteServer\KeywordCollector;
 
-class KeywordCollectorTests extends PHPUnit_Framework_TestCase {
+use \PHPUnit\Framework\TestCase;
+
+class KeywordCollectorTests extends TestCase {
 
     private $keywordCollector;
 
-    protected function setUp() {
+    protected function setUp():void {
         $this->keywordCollector = new KeywordCollector();
     }
 
-    protected function tearDown() {
+    protected function tearDown():void {
 
     }
 
-    public function testSingleClass() {
+    public function testSingleClass():void {
         $found = $this->keywordCollector->findFunctionsByClasses(__DIR__.'/test-libraries/ExampleLibrary.php');
 
         $this->assertEquals(array(
@@ -30,7 +32,7 @@ class KeywordCollectorTests extends PHPUnit_Framework_TestCase {
                 )), $found);
     }
 
-    public function testMultipleClassesWithNamespace() {
+    public function testMultipleClassesWithNamespace():void {
         $found = $this->keywordCollector->findFunctionsByClasses(__DIR__.'/test-libraries-multiple-files/another-subfolder/ClassesWithNamespace.php');
 
         $this->assertEquals(array(
@@ -57,7 +59,7 @@ class KeywordCollectorTests extends PHPUnit_Framework_TestCase {
                 )), $found);
     }
 
-    public function testBigClass() {
+    public function testBigClass():void {
         $found = $this->keywordCollector->findFunctionsByClasses(__DIR__.'/test-libraries-corner-cases/BigClass.php');
 
         $this->assertEquals(array(

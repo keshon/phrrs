@@ -4,14 +4,16 @@ use \PhpRobotRemoteServer\KeywordStore;
 use \PhpRobotRemoteServer\RobotRemoteServer;
 use \PhpRobotRemoteServer\RobotRemoteProtocol;
 
-class RobotRemoteServerTest extends PHPUnit_Framework_TestCase {
+use \PHPUnit\Framework\TestCase;
+
+class RobotRemoteServerTest extends TestCase {
 
     private $fakeRequests;
     private $fakeResponses;
     private $server;
     private $callCount;
 
-    protected function setUp() {
+    protected function setUp():void {
         $this->fakeRequests = new FakeRequests();
         $this->fakeResponses = new FakeResponses($this);
 
@@ -25,15 +27,15 @@ class RobotRemoteServerTest extends PHPUnit_Framework_TestCase {
         $this->server->init($protocol);
     }
 
-    protected function tearDown() {
+    protected function tearDown():void {
 
     }
 
-    private function startTestServer() {
+    private function startTestServer():void {
       $this->server->start($this->fakeRequests, $this->fakeResponses);
     }
 
-    public function testStop() {
+    public function testStop():void {
       $this->fakeRequests->testRequests[] = '<?xml version="1.0"?>
             <methodCall>
                <methodName>stop_remote_server</methodName>
@@ -54,7 +56,7 @@ class RobotRemoteServerTest extends PHPUnit_Framework_TestCase {
       $this->fakeResponses->checkAllResponsesDone();
     }
 
-    public function testKeywordThenStop() {
+    public function testKeywordThenStop():void {
       $this->fakeRequests->testRequests[] = '<?xml version="1.0"?>
             <methodCall>
                <methodName>run_keyword</methodName>
@@ -137,7 +139,7 @@ class FakeResponses {
     $this->asserts->assertXmlStringEqualsXmlString($expectedResponse, $response);
   }
 
-  public function checkAllResponsesDone() {
+  public function checkAllResponsesDone():void {
     $this->asserts->assertEquals(count($this->expectedResponses), $this->expectedResponsesIdx);
   }
 
