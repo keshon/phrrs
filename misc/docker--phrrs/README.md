@@ -1,4 +1,4 @@
-# This directory contains Docker files to build and run PHRRS image.
+## This directory contains Docker files to build and run PHRRS image.
 
 **Build**:
 ```
@@ -13,7 +13,7 @@ or (to remove untagged images before building)
 ```
     docker-compose up -d
 ```
-or (less cluttered)
+or (less cluttered with force rebuild)
 ```
     bash start-restart.sh
 ```
