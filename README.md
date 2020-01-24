@@ -1,3 +1,15 @@
+Robot Framework Remote PHP (Server) - PHRRS
+=====
+
+This is fork of [PHRRS](https://github.com/daluu/phrrs) project - a great tool that allows you to write Robot Framework libraries in PHP and execute them via remote phpxmlrpc server.
+
+The purpose of the fork was to keep the project in a kind of up-to-date state because Robot Framework is evolving (they dropped PyBot support already) and ..I'm too lazy and impatient to write pull requests to author of the project.
+
+
+***
+**Below is README.md of pre-forked project [daluu/phrrs](https://github.com/daluu/phrrs)**
+***
+
 phrrs - PHp Robot Remote Server (can be pronounced "friss" or "furs"?)
 =====
 
