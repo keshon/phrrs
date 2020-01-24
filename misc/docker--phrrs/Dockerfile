@@ -22,7 +22,7 @@ RUN apk --update add wget \
                      && rm /var/cache/apk/*
 
 
-# Create PHSSR directory
+# Create directory
 RUN mkdir opt
 
 # Git clone
