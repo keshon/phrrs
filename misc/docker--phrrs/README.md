@@ -1,8 +1,19 @@
-This is Docker file to build PHRRS image.
+# This directory contains Docker files to build and run PHRRS image.
 
-Build:
+**Build**:
+```
     docker build -t phrrs .
-
-Run (see shell script for details):
+```
+or (to remove untagged images before building)
+```
+    bash build-rebuild.sh
+```
+***
+**Run**:
+```
+    docker-compose up -d
+```
+or (less cluttered)
+```
     bash start-restart.sh
-
+```
