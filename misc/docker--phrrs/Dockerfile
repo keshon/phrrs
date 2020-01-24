@@ -43,9 +43,6 @@ ENV PORT 8111
 EXPOSE $PORT
 
 # Set Entry point and CMD
-#ENTRYPOINT php ${SERVER} ${LIBRARY} ${PORT}
-#ENTRYPOINT ["entrypoint.sh"]
-#CMD ["php", "-S", "0.0.0.0:11996"]
 CMD ["sh", "-c", "php $SERVER $LIBRARY $PORT"]
 
 
