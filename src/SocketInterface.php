@@ -4,11 +4,11 @@ namespace PhpRobotRemoteServer;
 
 class SocketInterface {
 
-	private $serverSocket;
-	private $requestSocket;
+    private $serverSocket;
+    private $requestSocket;
 
     public function startSession($serverPort, $verbose) {
-		$serverAddress = 'localhost:'.$serverPort;
+		$serverAddress = '0.0.0.0:'.$serverPort;
 		if ($verbose) {
 			echo('Starting server on '.$serverAddress.'...'."\n");
 		}
