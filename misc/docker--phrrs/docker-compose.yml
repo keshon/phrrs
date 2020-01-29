@@ -6,7 +6,7 @@ services:
         ports:
             - ${PORT:-8111}:${PORT:-8111}
         volumes:
-            - './${DIR_NAME:-lib}:/opt/phrrs/remote_libraries'
+            - './${DIR_NAME:-lib}:/opt/phrrs/lib'
         environment:
             LIBRARY: ${LIBRARY:-tests/test-libraries/ExampleLibrary.php}
             PORT: ${PORT:-8111}
